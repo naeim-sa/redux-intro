@@ -8,11 +8,11 @@ const initialState = {
 
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case "acount/deposit":
+    case "account/deposit":
       return { ...state, balance: state.balance + action.payload };
-    case "acount/withdraw":
+    case "account/withdraw":
       return { ...state, balance: state.balance - action.payload };
-    case "acount/requestLoan":
+    case "account/requestLoan":
       if (state.loan > 0) return state;
       return {
         ...state,
@@ -20,7 +20,7 @@ function reducer(state = initialState, action) {
         loanPurpos: action.payload.purpos,
         balance: state.balance + action.payload.amount,
       };
-    case "acount/payLoan":
+    case "account/payLoan":
       return {
         ...state,
         loan: 0,
@@ -34,14 +34,33 @@ function reducer(state = initialState, action) {
 
 const store = createStore(reducer);
 
-store.dispatch({ type: "acount/deposit", payload: 500 });
-console.log(store.getState());
-store.dispatch({ type: "acount/withdraw", payload: 200 });
+// store.dispatch({ type: "account/deposit", payload: 500 });
+// store.dispatch({ type: "account/withdraw", payload: 200 });
+// store.dispatch({
+//   type: "account/requestLoan",
+//   payload: { amount: 1000, purpos: "Buy a car" },
+// });
+
+function deposit(amount) {
+  return { type: "account/deposit", payload: amount };
+}
+
+function withdraw(amount) {
+  return { type: "account/withdraw", payload: amount };
+}
+
+function requestLoan(amount, purpos) {
+  return { type: "account/requestLoan", payload: { amount, purpos } };
+}
+
+function payLoan() {
+  return { type: "account/payLoan" };
+}
+
+store.dispatch(deposit(500));
+store.dispatch(withdraw(200));
 console.log(store.getState());
 
-store.dispatch({
-  type: "acount/requestLoan",
-  payload: { amount: 1000, purpos: "Buy a car" },
-});
-
+store.dispatch(requestLoan(1000, "Buy a cheap car"));
+store.dispatch(payLoan());
 console.log(store.getState());
