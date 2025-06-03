@@ -5,7 +5,7 @@ import customerReducer from "./features/customers/customersSlice";
 
 const rootReducer = combineReducers({
   account: accountReducer,
-  custome: customerReducer,
+  customer: customerReducer,
 });
 
 const store = createStore(rootReducer);
